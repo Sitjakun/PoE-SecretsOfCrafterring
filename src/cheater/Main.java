@@ -10,24 +10,35 @@ import java.awt.event.KeyEvent;
 public class Main {
 
     public static void main(String[] args) throws AWTException, InterruptedException {
+//        checkMonitorsCoordinates();
+//        inspectMouseCoordinates();
+        altSpam();
+//        spamClick();
+    }
 
+
+    private static void checkMonitorsCoordinates() {
         // To check pixels coordinate of each monitor
-//        GraphicsDevice[] screens = GraphicsEnvironment
-//                .getLocalGraphicsEnvironment()
-//                .getScreenDevices();
-//
-//        for (GraphicsDevice screen:screens) {
-//            System.out.println(screen.getDefaultConfiguration().getBounds());
-//        }
+        GraphicsDevice[] screens = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getScreenDevices();
 
+        for (GraphicsDevice screen:screens) {
+            System.out.println(screen.getDefaultConfiguration().getBounds());
+        }
+    }
+
+    private static void inspectMouseCoordinates() {
         // To inspect mouse coordinates
-//        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-//        System.out.println(mouseLocation);
+        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        System.out.println(mouseLocation);
+    }
 
-// Alteration = [x=1876,y=827]
-// Item = [x=1881,y=772]
+    private static void altSpam() throws AWTException, InterruptedException {
+        // Alteration = [x=1876,y=827]
+        // Item = [x=1881,y=772]
 
-        String wantedMod = "increased intel";
+        String wantedMod = "fire damage";
         boolean keepGoing = true;
 
         Robot bot = new Robot();
