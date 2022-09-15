@@ -3,6 +3,7 @@ package cheater;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
@@ -51,6 +52,7 @@ public class TryndaUltTracking implements NativeKeyListener {
                         new TryndaUltTracking().countdown();
                         System.exit(0);
                     } catch (InterruptedException | IOException ex) {
+                        System.out.println("Y a un proublem");
                         throw new RuntimeException(ex);
                     }
                 }
@@ -84,8 +86,9 @@ public class TryndaUltTracking implements NativeKeyListener {
 
     public void countdown() throws InterruptedException, IOException {
 
+        Path gif = Paths.get("src/picture/Undying_Rage_Copy.gif");
         try {
-            Files.copy(Paths.get("src/picture/Undying_Rage.gif"), Paths.get("src/picture/Undying_Rage_Copy.gif"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("src/picture/Undying_Rage.gif"), gif, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -97,6 +100,11 @@ public class TryndaUltTracking implements NativeKeyListener {
         picture.remove();
         picture.stop();
 
-        Files.delete(Paths.get("src/picture/Undying_Rage_Copy.gif"));
+        try {
+            Files.delete(gif);
+            Thread.sleep(5000);
+        } finally {
+            System.out.println("Success deleting file");
+        }
     }
 }
