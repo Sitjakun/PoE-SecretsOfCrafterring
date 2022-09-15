@@ -5,39 +5,83 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Objects;
+
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import picture.Picture;
 
-public class TryndaUltTracking {
+public class TryndaUltTracking implements NativeKeyListener {
+    public void nativeKeyPressed(NativeKeyEvent e) {
 
-    public static void main(String[] args) throws AWTException, InterruptedException, IOException {
+        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+            try {
+                GlobalScreen.unregisterNativeHook();
+            } catch (NativeHookException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
 
-        /**
-         * X955.0 Y1009.0
-         * Couleur avant ult = R232 G58 B24
-         * Couleur après ult = R29 G79 B121 puis R11 G65 B110
-         */
-        Robot bot = new Robot();
-        Point coord = new Point(955, 1009);
-        // System.out.println("X" + coord.getX() + "Y" + coord.getY());
-        Color color;
+        if (Objects.equals(NativeKeyEvent.getKeyText(e.getKeyCode()), "R")) {
+            System.out.println("R pressed");
 
-        boolean colorChanged = true;
-
-        while(colorChanged) {
-            color = bot.getPixelColor((int)coord.getX(), (int)coord.getY());
-            //System.out.printf("Couleur = R%s G%s B%s%n", color.getRed(), color.getGreen(), color.getBlue());
-            bot.delay(50);
-            if(color.getRed() == 29 && color.getGreen() == 79 && color.getBlue() == 121 && colorChanged) {
-                System.out.println("Undying Raaage");
-                new TryndaUltTracking().countdown();
-                colorChanged = false;
+//          X962.0 Y998.0
+//          Color before ult = R232 G58 B24
+//          Color after ult = R14 G86 B130 for 2.5 seconds then changes
+            Robot bot;
+            try {
+                bot = new Robot();
+            } catch (AWTException ex) {
+                throw new RuntimeException(ex);
+            }
+            Point coord = new Point(962, 998);
+            Color color;
+            while (true) {
+                color = bot.getPixelColor((int) coord.getX(), (int) coord.getY());
+                // System.out.printf("Couleur = R%s G%s B%s%n", color.getRed(), color.getGreen(), color.getBlue());
+                bot.delay(20);
+                if (color.getRed() == 14
+                        && color.getGreen() == 86
+                        && color.getBlue() == 130){
+                    // System.out.println("Undying Raaage");
+                    try {
+                        new TryndaUltTracking().countdown();
+                        System.exit(0);
+                    } catch (InterruptedException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         }
 
     }
+
+    public void nativeKeyReleased(NativeKeyEvent e) {
+        // System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+    }
+
+    public void nativeKeyTyped(NativeKeyEvent e) {
+        // System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
+    }
+
+    public static void main(String[] args) throws AWTException {
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(ex.getMessage());
+
+            System.exit(1);
+        }
+
+        GlobalScreen.addNativeKeyListener(new TryndaUltTracking());
+
+    }
+
+
     public void countdown() throws InterruptedException, IOException {
 
         try {
