@@ -1,6 +1,12 @@
 package picture;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.*;
 
@@ -10,32 +16,38 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinUser;
 
-public class ShowPicture {
+public class Picture {
 
-    private static Window window;
+    private Window window;
+    private JComponent image;
 
-    public static void main(String[] args) {
-        window = new Window(null);
-        window.add(new JComponent() {
-            /**
-             * This will draw a black cross on screen.
-             */
+    public void setImage() {
+        image = new JComponent() {
             protected void paintComponent(Graphics g) {
-                g.drawImage(new ImageIcon("src/picture/Undying_Rage.jpg").getImage(), 0, 0, this);
+                ImageIcon gif = new ImageIcon("src/picture/Undying_Rage_Copy.gif");
+                g.drawImage(gif.getImage(), 0, 0, this);
             }
-
             public Dimension getPreferredSize() {
-                return new Dimension(209, 212);
-            }
-        });
+                return new Dimension(204, 208);
+            }};
+    }
+
+    public void create(boolean visible) {
+        window = new Window(null);
+        window.add(image);
         window.pack();
-        window.setLocation(1209, 865);
-        window.setVisible(true);
+        window.setLocation(1213, 869);
+        window.setVisible(visible);
         window.setAlwaysOnTop(true);
         setTransparent(window);
     }
-    public static void clear(){
-        window.setVisible(false);
+
+    public void remove(){
+        window.remove(image);
+    }
+
+    public void stop(){
+        window.dispose();
     }
 
     private static void setTransparent(Component w) {
@@ -54,4 +66,11 @@ public class ShowPicture {
         return hwnd;
     }
 
+    public Window getWindow() {
+        return window;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
 }
