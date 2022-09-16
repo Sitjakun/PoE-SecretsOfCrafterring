@@ -48,6 +48,7 @@ public class Picture {
 
     public void stop(){
         window.dispose();
+        window = null;
     }
 
     private static void setTransparent(Component w) {
@@ -64,13 +65,5 @@ public class Picture {
         HWND hwnd = new HWND();
         hwnd.setPointer(Native.getComponentPointer(w));
         return hwnd;
-    }
-
-    public Window getWindow() {
-        return window;
-    }
-
-    public void setWindow(Window window) {
-        this.window = window;
     }
 }
