@@ -1,4 +1,4 @@
-#echo off
+echo off
 cd C:\Users\Sitja\Documents\Projects\Cheater\
 :a
 java -jar C:\Users\Sitja\Documents\Projects\Cheater\out\artifacts\trynda_ult_tracking_jar\untitled104.jar track
