@@ -6,13 +6,17 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
 
-    public static void main(String[] args) throws AWTException, InterruptedException {
+    public static void main(String[] args) throws Exception {
 //        checkMonitorsCoordinates();
 //        inspectMouseCoordinates();
-        altSpam();
+//        altSpam();
 //        spamClick();
     }
 
