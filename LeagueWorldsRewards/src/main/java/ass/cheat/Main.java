@@ -56,7 +56,9 @@ public class Main  {
                         Runtime.getRuntime().exec(new String[] {"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" , "https://lolesports.com/live/worlds/otplol_" });
                         Thread.sleep(10000);
                         bot.mouseMove(900, 400);
+                        Thread.sleep(250);
                         bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                        Thread.sleep(250);
                         bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                         Thread.sleep(10000);
                     } catch (IOException | InterruptedException | AWTException e) {
