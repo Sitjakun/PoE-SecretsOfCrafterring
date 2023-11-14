@@ -1,28 +1,28 @@
 package cheater;
 
+import Utils.BasicKeyListener;
+import Utils.Modifiers;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import Utils.Modifiers;
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-
-public class CraftMagicItem implements NativeKeyListener {
-    private static final int xItem = 1881;
-    private static final int yItem = 772;
-    private static final int xAltStash = 113;
-    private static final int yAltStash = 309;
-    private static final int xAugStash = 231;
-    private static final int yAugStash = 371;
+public class CraftMagicItem extends BasicKeyListener {
+    private static final int xItem = 5061;
+    private static final int yItem = 1098;
+    private static final int xAltStash = 146;
+    private static final int yAltStash = 413;
+    private static final int xAugStash = 298;
+    private static final int yAugStash = 486;
 
     private static final List<String> prefixes = new ArrayList<>();
     private static final List<String> suffixes = new ArrayList<>();
@@ -30,16 +30,7 @@ public class CraftMagicItem implements NativeKeyListener {
     private static boolean emptyPrefix;
     private static boolean emptySuffix;
 
-    private static void setup() {
-        itemType = "flask";
-        prefixes.add("increased effect");
-        suffixes.add("cheetah");
-
-        emptyPrefix = false;
-        emptySuffix = false;
-    }
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException ex) {
@@ -50,7 +41,26 @@ public class CraftMagicItem implements NativeKeyListener {
         GlobalScreen.addNativeKeyListener(new CraftMagicItem());
     }
 
-    private static void altSpam() throws AWTException, InterruptedException, IOException {
+    private static void setup() {
+        itemType = "flask";
+        prefixes.add("experiment");
+        prefixes.add("clini");
+        prefixes.add("exami");
+        suffixes.add("movement speed during effect");
+//        suffixes.add("life when you block");
+//        suffixes.add("increased evasion rating during");
+//        prefixes.add("empowering");
+//        prefixes.add("unleashed");
+//        prefixes.add("glaciated");
+//        prefixes.add("polar");
+//        prefixes.add("entombing");
+
+
+        emptyPrefix = false;
+        emptySuffix = false;
+    }
+
+    public void run() throws Exception {
 
         setup();
 
@@ -102,29 +112,6 @@ public class CraftMagicItem implements NativeKeyListener {
         Thread.sleep((int) (Math.random() * 35) + 75);
     }
 
-    public void nativeKeyPressed(NativeKeyEvent e) {
-
-        Thread t = new Thread(() -> {
-            try {
-                altSpam();
-            } catch (IOException | InterruptedException | AWTException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-        if (e.getKeyCode() == NativeKeyEvent.VC_F11) {
-            t.start();
-        }
-        if (e.getKeyCode() == NativeKeyEvent.VC_F10) {
-            try {
-                GlobalScreen.unregisterNativeHook();
-                System.exit(0);
-            } catch (NativeHookException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-    }
 
     private static Map<String, Boolean> altOrAug(String item) {
 
@@ -262,7 +249,7 @@ public class CraftMagicItem implements NativeKeyListener {
         Thread.sleep((int) (Math.random() * 35) + 15);
     }
 
-    private static String onPaste() {
+    public static String onPaste() {
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
         Transferable t = c.getContents(null);
         if (t == null)

@@ -36,7 +36,7 @@ public class Picture {
         window = new Window(null);
         window.add(image);
         window.pack();
-        window.setLocation(1213, 869);
+        window.setLocation(3235, 1159);
         window.setVisible(visible);
         window.setAlwaysOnTop(true);
         setTransparent(window);

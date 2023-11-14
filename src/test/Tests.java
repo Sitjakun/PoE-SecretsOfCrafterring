@@ -46,6 +46,10 @@ public class Tests {
 
     }
 
+    @Test
+    public void testIntegerTruncation() {
+    }
+
     private static List<Date> transformToListOfDates(List<String> startTimes) throws ParseException {
 
         return startTimes.stream().map(startTime -> {

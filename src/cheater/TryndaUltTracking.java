@@ -42,14 +42,16 @@ public class TryndaUltTracking implements NativeKeyListener {
             // System.out.println("R pressed");
             while (true) {
                 bot.delay(20);
-                Point coord = new Point(962, 998);
+                // 1920x1080 -> x=962 y=998
+                // 5120x1440 -> x=2565 y=1330
+                Point coord = new Point(2565, 1330);
                 Color color;
                 color = bot.getPixelColor((int) coord.getX(), (int) coord.getY());
-                // System.out.printf("Couleur = R%s G%s B%s%n", color.getRed(), color.getGreen(), color.getBlue());
-                if (color.getRed() == 14
-                        && color.getGreen() == 86
-                        && color.getBlue() == 130) {
-                    // System.out.println("Undying Raaage");
+//                 System.out.printf("Couleur = R%s G%s B%s%n", color.getRed(), color.getGreen(), color.getBlue());
+                if (color.getRed() == 13
+                        && color.getGreen() == 85
+                        && color.getBlue() == 129) {
+                     System.out.println("Undying Raaage");
                     try {
                         new TryndaUltTracking().countdown();
                     } catch (InterruptedException | IOException ex) {
